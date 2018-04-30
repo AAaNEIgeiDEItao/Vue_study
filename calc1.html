@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+
+		<style type="text/css">
+			body {
+				font-family: sans-serif;
+			}
+			
+			table {
+				margin: 0 auto;
+				letter-spacing: 1px;
+			}
+			
+			td {
+				border-bottom: solid #aaa 1px;
+				width: 5rem;
+				min-width: 112px;
+			}
+			
+			.center {
+				text-align: center;
+			}
+			
+			.itemname {
+				padding-left: 2%;
+			}
+			
+			.count {
+				display: inline-block;
+				width: 1.4rem;
+			}
+			
+			.li-nav {
+				margin: 0 2%;
+			}
+			
+			.li-a-nav {
+				width: 100%;
+				display: block;
+				color: black;
+			}
+			
+			.li-a-nav:hover {
+				color: crimson;
+			}
+			
+			.nav {
+				min-width: 400px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app">
+			<ul class="nav">
+				<li v-for="subnav in nav" class="li-nav">
+					<a href="#" class="li-a-nav">{{subnav}}</a>
+
+				</li>
+				<button @click="addSubnav">添加一项</button>
+				<input type="" name="" v-model="navitem" value="1" />
+			</ul>
+			<ul>
+				<li v-for="(value,key,index) in user">{{index}}---{{key}}:{{value}}</li>
+			</ul>
+			<div id="">
+
+				<table border="0" cellpadding="20">
+					<tr>
+						<th>商品名称</th>
+						<th>商品价格</th>
+						<th>商品数量</th>
+						<th>商品价格</th>
+					</tr>
+					<tr v-for="(items,index) in cart">
+						<td class="itemname">{{items.name}}</td>
+						<td class="center">{{items.price}}</td>
+						<td class="center">
+							<button @click="add(index)" class="count">+</button>
+							<span class="count">{{items.count}}</span>
+							<button @click="reduce(index)" class="count">-</button></td>
+						<td class="center">{{items.count*items.price}}</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td class="center">总价</td>
+						<td class="center">{{prices}}</td>
+					</tr>
+			</div>
+
+			<script type="text/javascript">
+				new Vue({
+					el: "#app",
+					data: {
+						nav: [
+							"男装",
+							"女装",
+							"彩妆",
+							"体育用品",
+							"电脑",
+							"手机",
+							"早教",
+						],
+						user: {
+							name: "Jiaweiyuan",
+							age: 23,
+							gender: '男'
+						},
+						cart: [{
+								name: "iphone X 256G",
+								price: "8222",
+								count: 2
+							},
+							{
+								name: "MacBook Pro 256G",
+								price: "10888",
+								count: 1
+							},
+							{
+								name: "ipad air",
+								price: "438",
+								count: 10
+							}
+						],
+						navitem: ""
+
+					},
+					methods: {
+						add: function(index) {
+							this.cart[index].count++;
+						},
+						reduce: function(index) {
+							if(this.cart[index].count) {
+								this.cart[index].count--;
+							}
+						},
+						addSubnav: function() {
+							this.nav.push(this.navitem);
+							this.navitem = '';
+						}
+					},
+					computed: {
+						prices: function() {
+							var prices = 0;
+							for(var i = 0; i < this.cart.length; i++) {
+								prices += this.cart[i].price * this.cart[i].count;
+							}
+							return prices;
+						}
+					}
+				})
+			</script>
+	</body>
+
+</html>

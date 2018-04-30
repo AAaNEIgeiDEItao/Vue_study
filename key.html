@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			<h3>如果不加key，那么input元素就会被复用，保留了内容，会复用元素/组件</h3>
+			<template v-if="type==='name'">
+				<label for="">用户名</label>
+				<input placeholder="输入用户名" key="name-input" />
+			</template>
+			<template v-else>
+				<label for="">用户名</label>
+				<input placeholder="输入邮箱" key="mail-input" />
+			</template>
+			<button @click="changeStatus">切换输入类型</button>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: "#app",
+				data: {
+					type: 'name'
+				},
+				methods: {
+					changeStatus: function() {
+						this.type = this.type === 'name' ? 'mali' : 'name';
+						console.log(this.type)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

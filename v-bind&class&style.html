@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.red {
+				color: red;
+			}
+			
+			.italic {
+				font-style: italic;
+			}
+			
+			.center {
+				text-align: center;
+			}
+			
+			.green {
+				color: green;
+			}
+			
+			.small {
+				font-size: 0.8em;
+			}
+			
+			.btn {
+				background-color: transparent;
+				border-radius: 6px;
+				border: 0;
+				box-shadow: 0px 0px 2px;
+				transition: all .2s;
+				line-height: 30px;
+				font-family: "微软雅黑";
+				font-weight: bold;
+				letter-spacing: 2px;
+				cursor: pointer;
+			}
+			
+			.btn:hover {
+				background-color: crimson;
+				color: white;
+			}
+			
+			.btn-disabled {
+				background-color: gray;
+				cursor: initial;
+			}
+			
+			.btn-disabled:hover {
+				color: black;
+				background-color: gray;
+			}
+			
+			.btn-large {
+				font-size: 1.5em;
+			}
+			
+			.btn-small {
+				font-size: 0.8em;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app">
+			<div class="wrap">
+				<h1>class绑定</h1>
+				<h2>对象语法</h2>
+				<p :class="{'wrap':isWrap,'big':isItalic,'center':isCenter}">演示实例</p>
+				<pre class="html">:class="{'wrap':isWrap,'size':isItalic,'center':isCenter}"</pre>
+				<h3>与普通class共存</h3>
+				<p :class="{'wrap':isWrap,'big':isItalic}" class="red">:class可以和普通class共存</p>
+				<pre class="html">:class="{'wrap':isWrap,'size':isItalic},'center':isCenter" class="red"</pre>
+				<p>当isItalic或isCenter变化时，class也会更新</p>
+				<button @click="changeClass">点击改变isCenter</button>
+				<h3>计算属性绑定class</h3>
+				<p>当表达式过长或者逻辑过于复杂时，可以使用计算属性。</p>
+				<p>除了使用计算属性，还可以使用一个Object或者类似计算属性的methods，</p>
+				<p :class="classes">这是绑定了计算属性的元素</p>
+				<pre class="html">:class="classes"</pre>
+				<pre>	computed: {
+		classes: function() {
+			return {
+				red: !this.isGreen && this.isRed,
+				small: this.isSmall
+			}
+		}
+	}</pre>
+				<h2>数组语法</h2>
+				<p>当需要应用多个class时，可以使用数组语法，给:class绑定一个数组，应用一个class列表</p>
+				<p :class="[greenCls,italicCls]">这是应用了数组语法的实例</p>
+				<pre class="html">:class="[greenCls,italicCls]"</pre>
+				<pre>data: {
+	greenCls: "green",
+	italicCls: "big"
+},</pre>
+				<h2>数组语法里面也可以使用三元运算符</h2>
+				<p :class="[isGreen? greenCls :'',italicCls]">这是应用了三元运算符的数组语法的实例</p>
+				<pre class="html">:class="[isGreen? greenCls :'',italicCls]"</pre>
+				<p>italicCls会始终使用，而当isGreen为真时，样式green才会使用</p>
+				<h3>数组语法里使用对象语法</h3>
+				<p :class="[{'center':isCenter},italicCls]">这是数组语法里使用了对象语法的实例</p>
+				<pre class="html">:class="[{'center':isCenter},italicCls]"</pre>
+				<h3>使用计算属性给元素动态设置类名，在业务中经常用到，比如写复用的组件时</h3>
+				<button :class="btnClasses">按钮</button>
+				<pre class="html">:class="btnClasses"</pre>
+				<pre>	computed: {
+		btnClasses: function() {
+			return ['btn', {
+				'btn-disabled': this.disabled,
+				['btn-' + this.size]: this.size !== '', //ES6
+			}];
+		}
+	}</pre>
+
+				<h3>绑定内联样式</h3>
+				<p :style="{color}">用法1</p>
+				<pre class="html">:style="{color}"</pre>
+				<pre>	data:{
+	color: "red",		
+	}</pre>
+				<p :style="{color:'green',fontWeight:900}">用法2</p>
+				<pre class="html">:style="{color:'green',fontWeight:900}"</pre>
+				<p :style="styles">用法3</p>
+				<pre class="html">:style="styles"</pre>
+				<pre>	computed: {
+		styles: function() {
+			return {
+				color: '#BA6190',
+				textDecoration: 'underline'
+			}
+		}
+	}</pre>
+				<p :style="[stylesObj1,stylesObj2]">内联样式也可以使用数组语法,其实就是数组里面包含各种Object</p>
+				<pre class="html">:style="[stylesObj1,stylesObj2]"</pre>
+				<pre>	data: {
+		stylesObj1: {
+			color: 'gray'
+		},
+		stylesObj2: {
+			transform: 'rotateZ(3deg)'
+		}
+	},</pre>
+				<p :style="stylesObj1">使用了内联样式的文本,vue会自动给属性增加浏览器前缀</p>
+				<pre class="html">:style="stylesObj1"</pre>
+			</div>
+		</div>
+
+		</div>
+		<script type=" text/javascript ">
+			var app = new Vue({
+				el: "#app ",
+				data: {
+					isWrap: true,
+					isItalic: true,
+					isSmall: true,
+					isCenter: true,
+					isGreen: true,
+					isRed: true,
+					greenCls: "green",
+					italicCls: "italic",
+					size: "large",
+					disabled: true,
+					color: "red",
+					stylesObj1: {
+						color: 'gray'
+					},
+					stylesObj2: {
+						transform: 'rotateX(33deg)'
+					}
+				},
+				methods: {
+					changeClass: function() {
+						this.isCenter = !this.isCenter;
+					}
+				},
+				computed: {
+					classes: function() {
+						return {
+							red: !this.isGreen && this.isRed,
+							small: this.isSmall
+						}
+					},
+					btnClasses: function() {
+						return ['btn', {
+							'btn-disabled': this.disabled,
+							['btn-' + this.size]: this.size !== '', //ES6
+						}];
+					},
+					styles: function() {
+						return {
+							color: '#BA6190',
+							textDecoration: 'underline'
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

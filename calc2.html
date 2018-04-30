@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="wrap">
+				<p>每一个计算属性都有getter和setter属性</p>
+				<p>{{showPrice}}</p>
+				<p>{{p}}</p>
+				<button @click="change">setter属性演示</button>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			var a = new Vue({
+				el: "#app",
+				data: {
+					price: 99,
+					p: 0
+				},
+				methods: {
+					change: function() {
+						a.showPrice++;
+					}
+				},
+				computed: {
+					showPrice: {
+						get: function() {
+							return this.price;
+						},
+						set: function(n) {
+							this.p = n + 1;
+						}
+					}
+
+				}
+
+			})
+			a.$watch("price", function() {
+				if(this.price > 100) {
+					this.price = 1;
+				}
+			})
+		</script>
+	</body>
+
+</html>

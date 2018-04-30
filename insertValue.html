@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			<p>{{name.toLowerCase()}}</p>
+			<p>{{age/2}}</p>
+			<p>{{date}}</p>
+			<p>{{boy?"boy":"girl"}}</p>
+			<!--不支持语句和流控制，请用三元运算符-->
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el: "#app",
+				data: {
+					name: "JWY",
+					age: 22,
+					date: new Date(),
+					boy:true
+				}
+			})
+		</script>
+	</body>
+
+</html>

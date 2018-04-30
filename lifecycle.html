@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="wrap">
+
+				实例创建完成后调用，此阶段完成了数据的观测， 但尚未挂载，$el还不能用，用于初始化处理一些数据
+				<pre>				created: function() {
+					console.log(0);
+				},</pre> el挂载到实例上后调用，一般我们的弟一个 业务逻辑会在这里开始
+				<pre>				mounted: function() {
+					console.log(1);
+				},</pre> 实例销毁之前调用， 主要解绑一些使用addEventListener监听的事件
+				<pre>				beforeDestroy: function() {
+					console.log(3);
+				}</pre>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: '#app',
+				data: {
+					a: 1
+				},
+				/*实例创建完成后调用，此阶段完成了数据的观测，
+				 但尚未挂载，$el还不能用，用于初始化处理一些数据*/
+				created: function() {
+					console.log(0);
+				},
+				/*el挂载到实例上后调用，一般我们的弟一个 业务逻辑会在这里开始*/
+				mounted: function() {
+					console.log(1);
+				},
+				/*实例销毁之前调用，
+				 主要解绑一些使用addEventListener监听的事件*/
+				beforeDestroy: function() {
+					console.log(3);
+				}
+
+			})
+		</script>
+	</body>
+
+</html>

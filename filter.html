@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<h1>filter</h1>
+			<pre>插值的尾部添加一个管道符号|可以对数据进行过滤，用于格式化文本<br />，比如字母全部大写，货币千位使用逗号分隔符。<br />过滤的规则是自定义的，通过给Vue实例添加<i>filters来设置</i></pre>
+			<h2>第二第三个参数相加</h2>
+			<p>{{ date | formatDate(1,2)}}</p>
+			<h2>过滤器串联</h2>
+			<p>{{ str|type_1|type_2 }}</p>
+			<pre>/*可以串联过滤器*/</pre>
+			<h1>如果要处理更复杂的数据，应该用计算属性</h1>
+		</div>
+		<script type="text/javascript">
+			var padDate = function(value) {
+				return value < 10 ? '0' + value : value;
+			}
+			new Vue({
+				el: '#app',
+				data: {
+					date: new Date(),
+					str: 'aaa'
+				},
+				filters: {
+					type_1: function(v) {
+						return v.split("").join("---");
+					},
+					type_2: function(v) {
+						return v + " I can series";
+					},
+					formatDate: function(value, test1, test2) {
+						var date = new Date(value);
+						var year = date.getFullYear();
+						var month = padDate(date.getMonth() + 1);
+						var day = padDate(date.getDate());
+						var hours = padDate(date.getHours());
+						var minutes = padDate(date.getMinutes());
+						var seconds = padDate(date.getSeconds());
+						console.log("过滤器第二个和第三个参数：" + test1 + test2);
+						return year + '-' + month + '-' + day + '-' + hours + ':' + minutes + ':' + seconds;
+					}
+				},
+				mounted: function() {
+					var that = this;
+					that.timer = setInterval(function() {
+						that.date = new Date();
+					}, 1000);
+				},
+				beforeDestroy: function() {
+					if(this.timer) {
+						clearInterval(this.timer);
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

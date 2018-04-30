@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			{{tiemMethod()}} <br />{{now}}<br />{{tiemMethod()}} <br />{{now}}
+		</div>
+		<script type="text/javascript">
+			var a = new Vue({
+				el: "#app",
+				data: {
+					time: Date.now()
+				},
+				methods: {
+					tiemMethod: function() {
+						console.log("method执行");
+						return this.time;
+						//method能完成计算属性的工作，但是不能缓存数据，每次加载，都要重新执行计算
+						//而计算属性只要属性没有改变，就会使用缓存的数据，对于大量数据计算提高了性能，不用每次都重新运算
+					}
+				},
+				computed: {
+					now: function() {
+						console.log("computed执行");
+						return this.time;
+					}
+				}
+			})
+			/*
+			"method执行"	
+			"computed执行"
+			"method执行"	
+			 */
+		</script>
+	</body>
+
+</html>

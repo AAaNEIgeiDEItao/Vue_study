@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue/vue.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<style type="text/css">
+			[v-cloak]: {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<header>---数据驱动DOM是Vue的核心理念，不到万不得已不要主动操作DOM</header>
+			<h1>指令</h1>
+			<div class="wrap">
+				<h2>v-if：显示/隐藏</h2>
+				<p>指令的主要职责：根据表达式的值来更新DOM行为</p>
+				<pre>v-if="show"</pre>
+				<p v-if="show">显示这段文本</p>
+				<h2>v-else-if</h2>
+				<div v-if="type === 'A'">
+					A
+				</div>
+				<div v-else-if="type === 'B'">
+					B
+				</div>
+				<div v-else-if="type === 'C'">
+					C
+				</div>
+				<div v-else>
+					Not A/B/C
+				</div>
+				<p>Vue在渲染元素时，会尽可能复用已有的元素而非重新渲染 </p>
+			</div>
+			<div class="wrap">
+				<h2>v-for</h2>
+				<h3>用来遍历数组或者对象的属性</h3>
+				<h3>遍历数组时，有一个可选参数作为索引:</h3>
+				<pre>v-for="(items,index) in cart"</pre>
+				<h3>遍历对象时，有两个可选参数，一个作为属性名，一个作为索引</h3>
+				<pre>v-for="(items,key,index) in cart"</pre>
+				<h3>通过以下方法，可以改变数组，并且Vue会响应更新渲染</h3>
+				<ul>
+					<li>pop()</li>
+					<li>push()</li>
+					<li>shift()</li>
+					<li>unshift()</li>
+					<li>splice()</li>
+					<li>sort()</li>
+					<li>reverse()</li>
+				</ul>
+				<h3>不过不能直接给数组赋值或者修改数组长度，这样Vue不会有 反应</h3>
+				<span v-for="items in test">{{items}}</span>
+				<p>点击下面按钮，为数组赋新一项，可以看到数组并未更新在视图上</p>
+				<button @click="changeArr">手动赋值不会触发渲染</button>
+				<button @click="pushArr">通过push等方法赋值重新渲染</button>
+				<h3>而通过以下方法不会改变原数组</h3>
+				<ul>
+					<li>filter</li>
+					<li>concat</li>
+					<li>slice</li>
+				</ul>
+				<p>这些数组可以用来过滤选择，作为计算属性的返回值。</p>
+			</div>
+			<div class="wrap">
+				<h2>v-show</h2>
+				<p>实质是改变了display样式</p>
+				<p v-show="status===1">当status为1时显示此文本</p>
+				<p v-show="status===2">当status为2时显示此文本</p>
+				<button @click="changeStatus">改变status值</button>
+			</div>
+			<pre>v-show和v-if的区别在于v-if是真正的条件渲染，它会根据表达式适当地销毁或重建元素以及绑定的事件或子组件，若表达式初始值为false，则一开始元素/组件并不会渲染，只有当条件第一次变为真的时候才开始编译<br />而v-show只是简单的CSS属性切换，无论条件真与否，都会被编译。<br />相比之下，v-if适合条件不经常改变的场景，因为它切换开销相对较大，而v-show适用于频繁操作</pre>
+			<div class="wrap">
+				<h2>v-bind:动态更新HTML元素上的属性，比如id、class、src、title、href等等</h2>
+				<h3>v-bind:href</h3>
+				<pre>v-bind:href="index"<br />@:href="index"//简写</pre>
+				<a :href="index">Github</a>
+				<a :href="index">Github</a>
+				<h3>v-bind:src</h3>
+				<img :src="tap" />
+				<pre>v-bind:src="tap"<br />:src="tap"//简写 </pre>
+			</div>
+			<div class="wrap">
+				<h2>v-on:事件监听器</h2>
+				<h3>使用方法名</h3>
+				<button @click="handleClose">显示/隐藏</button>
+				<pre>v-on:click="handleClose"<br />@:click="handleClose"//简写</pre>
+				<i v-if="show">显示这段文本</i>
+				<h3>使用表达式，不推荐</h3>
+				<button @click="show=false">点击隐藏</button>
+				<pre>v-on:click="show=false"<br />@:click="show=false"//简写</pre>
+			</div>
+			<div class="wrap">
+				<h2>v-cloak</h2>
+				<p>为了解决初始化慢导致页面闪动的最佳实践，对于简单的项目很实用，但是在工程化的项目里，比如webpack和vue-router,项目结构只有一个空的div元素，剩余的内容都是由路由去挂载不同组件完成的，所以不再需要v-cloak</p>
+				<!--<p>{{message}}</p>-->
+			</div>
+			<div class="wrap">
+				<h2>v-once</h2>
+				<p>功能：让元素或组件只渲染一次</p>
+				<p v-once>使用了v-once：{{message}}，只渲染一次</p>
+				<p>没有使用v-once：{{message}}</p>
+				<button @click="changeMessage">改变message值</button>
+			</div>
+
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el: "#app",
+				data: {
+					type: 'B',
+					status: 1,
+					message: "这是一段文本",
+					show: true,
+					index: "https://aaaneigeideitao.github.io",
+					tap: "https://aaaneigeideitao.github.io/icon.jpg",
+					count: 0,
+					test: [1, 2, 3]
+				},
+				methods: {
+					handleClose: function() {
+						this.show = !this.show;
+					},
+					changeMessage: function() {
+						this.message = "文字被改变了" + ++this.count + "次";
+					},
+					changeStatus: function() {
+						this.status = this.status === 1 ? 2 : 1;
+						console.log(this.status);
+					},
+					changeArr: function() {
+						this.test[3] = 1;
+						console.log(this.test);
+					},
+					pushArr: function() {
+						this.test.push(this.test.length + 1);
+					}
+				}
+
+			})
+		</script>
+	</body>
+
+</html>
