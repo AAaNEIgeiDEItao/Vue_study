@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{size}}
+    <test :post="size" @dddddd="add"></test>
+    <my-input :value="value" v-model="value"></my-input>
+    {{value}}
+    <my-slot>{{errMsg}}</my-slot>
+</div>
+</body>
+<script>
+    Vue.component('my-slot',{
+        template:`<div><slot></slot></div>`
+    })
+    Vue.component('my-input',{
+        props:{
+            value:Number
+        },
+        template:`<input v-bind:value="value" v-on:input="$emit('input',$event.target.value)">`
+    })
+    Vue.component('test', {
+        props: ['post'],
+        template: `
+    <div class="blog-post">
+      <h3>{{ post.title }}</h3>
+      <button @click="$emit('dddddd',5)">
+        Enlarge text
+      </button>
+      <div v-html="post.content"></div>
+    </div>
+  `
+    })
+    let app = new Vue({
+        el: "#app",
+        data: {
+            size: 1,
+            value:0,
+            errMsg:"用户名没有填写"
+        },
+        methods: {
+            add(k) {
+                console.log(k)
+                console.log(this.size)
+                this.size++;
+            }
+        }
+    })
+</script>
+</html>
